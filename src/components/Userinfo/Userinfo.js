@@ -1,5 +1,4 @@
-import avatar from '../img/avatar.png';
-import './UserDetails.css';
+import './Userinfo.css';
 
 const user = {
   "id": 1,
@@ -25,15 +24,9 @@ const user = {
   }
 };
 
-function UserDetails() {
+function Userinfo() {
   return (
-    <div className="UserDetails border">
-
-      <div className="Avatar border">
-        <img src={avatar} alt="Avatar"/>
-      </div>
-
-      <div className="Userinfo border">
+    <div className="userinfo border">
         <div className="user-line">name : <span className="line-data">{user.name}</span></div>
         <div className="user-line">user name : <span className="line-data">{user.username}</span></div>
         <div className="user-line">email : <span className="line-data">{user.email}</span></div>
@@ -41,10 +34,8 @@ function UserDetails() {
           {user.address.street}, {user.address.suite}<br/>{user.address.city}, {user.address.zipcode}</span></div>
         <div className="user-line">phone : <span className="line-data">{user.phone}</span></div>
         <div className="user-line">company name : <span className="line-data">{user.company.name}</span></div>
-      </div>
-    
     </div>
   );
 }
 
-export default UserDetails;
+export default Userinfo;
