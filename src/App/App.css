@@ -4,33 +4,6 @@
   margin: 120px auto;
 }
 
-.UserDetails {
-  background-color: #00000099;
-}
-
-.Avatar {
-  display: inline-block;
-  width: 300px;
-  height: 300px;
-}
-
-.Userinfo {
-  display: inline-block;
-  vertical-align: top;
-  width: 300px;
-  height: 300px;
-}
-
-.user-line {
-  text-transform: uppercase;
-  margin: 5px 0 20px;
-}
-
-.line-data {
-  text-transform: capitalize;
-  font-weight: bold;
-}
-
 .Content {
   color: #00b6ff;
   background-color: #00000099;
