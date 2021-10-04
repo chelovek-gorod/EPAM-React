@@ -1,5 +1,5 @@
-import user from './User';
-import avatar from './avatar.png';
+import user from '../Userinfo/User';
+import avatar from '../img/avatar.png';
 import './App.css';
 
 function App() {
@@ -8,11 +8,11 @@ function App() {
 
       <div className="UserDetails border">
 
-        <div className="user-avatar border">
+        <div className="Avatar border">
           <img src={avatar} alt="Avatar"/>
         </div>
 
-        <div className="user-info border">
+        <div className="Userinfo border">
           <div className="user-line">name : <span className="line-data">{user.name}</span></div>
           <div className="user-line">user name : <span className="line-data">{user.username}</span></div>
           <div className="user-line">email : <span className="line-data">{user.email}</span></div>
@@ -24,7 +24,7 @@ function App() {
       
       </div>
 
-      <div className="content border">
+      <div className="Content border">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
