@@ -27,13 +27,16 @@ The user has next data and should be stored as constant variable and passed as p
   }
 
 • You are free to implement different design (discuss it with mentors), but UX should be the following:
-[App
-    [UserDetails
-        [Avatar] [Userinfo]
-    ]
-    [Content
 
+[App
+
+    [UserDetails
+    
+        [Avatar] [Userinfo]
+        
     ]
+    
+    [Content]
 ]
 
 • You need to create a separate repository. You can use npm or yarn as package manager. You can use boilerplate (like react-create-app) or write your own webpack config to build an app. You can use any way to style your app (CSS, SCSS, styled component, whatever you want). You can use Typescript if you want. Anyway, your package.json must include minimum 2 running scripts: start for running in dev mode and build for building your app (included in react-create-app from the box). 

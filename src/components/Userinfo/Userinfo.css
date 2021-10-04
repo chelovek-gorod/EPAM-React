@@ -1,0 +1,16 @@
+.userinfo {
+  display: inline-block;
+  vertical-align: top;
+  width: 300px;
+  height: 300px;
+}
+
+.user-line {
+  text-transform: uppercase;
+  margin: 5px 0 20px;
+}
+
+.line-data {
+  text-transform: capitalize;
+  font-weight: bold;
+}
