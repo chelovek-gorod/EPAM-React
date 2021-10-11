@@ -1,0 +1,44 @@
+.albom-div {
+  display: inline-block;
+  width: 30%;
+  margin: 1.5%;
+  height: 130px;
+  background-image: url('../../img/folder.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: solid 1px #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.albom-div span {
+  color: rgb(255 255 255);
+  width: 100%;
+  text-align: center;
+  text-shadow: 1px 2px 3px #00b6ff;
+  display: inline-block;
+}
+
+button {
+  margin: 1.5%;
+  padding: 7px;
+  color: #ffffff;
+  background-color: inherit;
+  border: solid 1px #00b6ff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.photo {
+  display: inline-block;
+  width: 28%;
+  margin: 1.5%;
+  padding: 1%;
+  height: 65px;
+  vertical-align: top;
+  font-size: 12px;
+  color: #ffffff;
+  border: solid 1px #ffffff;
+  border-radius: 8px;
+}

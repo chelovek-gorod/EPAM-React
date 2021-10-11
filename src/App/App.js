@@ -1,4 +1,4 @@
-import UserDetails from '../components/UserDetails/UserDetails';
+import UserDetails from '../components//UserDetails/UserDetails';
 import Content from '../components/Content/Content';
 import './App.css';
 
