@@ -1,53 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './Albums.css';
 
-class Albums extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      items: []
-    };
-  }
-  
-  componentDidMount() {
+function Albums() {
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([]);
+  let [albom, setAlbom] = useState(0);
+
+  const albomsToLoad = 6;
+  const albomsArr = [];
+  for (let i = 1; i <= albomsToLoad; i++) albomsArr.push(i);
+
+  useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/albums")
       .then(res => res.json())
-      .then((result) => {
-        this.setState({
-          isLoaded: true,
-          items: result
-        });
-        console.log(this.state);
-      },
-      (error) => {
-        this.setState({
-          isLoaded: true,
-          error
-        });
-      }
-    )
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          let alboms = result.filter(e => {
+            if (e.userId <= albomsToLoad) return e;
+          })
+          setItems(alboms);
+        })
+        .catch((error) => {
+          setIsLoaded(true);
+          setError(error);
+        })
+  }, []);
+
+  function getAlbom() {
+    return items.filter(e => e.userId === albom)
   }
-  
-  render() {
-    const { error, isLoaded, items } = this.state;
-    if (error) {
-      return <div>Ошибка: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Загрузка...</div>;
-    } else {
-      return (
-        <ol>
-          {items.map(items =>
-            <li key={items.id}>
-              <span className="user-id-span">USER ID {items.userId}</span> {items.title}
-            </li>
-          )}
-        </ol>
-      );
-    }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  } else if (!isLoaded) {
+    return <div>Loading...</div>;
+  } else if (albom === 0){
+    return (
+        <div className="alboms">
+            { albomsArr.map(e => <div className="albom-div" key={e} onClick={() => setAlbom(albom = e)}><span>Albom #{e}</span></div>) }
+        </div>
+    );
+  } else {
+    return (
+        <div className="photos">
+        <div><button onClick={() => setAlbom(albom = 0)}>Back to alboms</button></div>
+        {getAlbom().map(e => <div className="photo" key={e.id}>{e.title}</div>)}
+        </div>
+    );
   }
 }
 

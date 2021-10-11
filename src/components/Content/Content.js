@@ -1,5 +1,5 @@
 import './Content.css';
-import Albums from '../Albums/Albums'
+import Albums from '../Albums/Albums';
 
 function Content() {
   return (
