@@ -5,7 +5,7 @@ import { loaded, viewAlbums, addAlbum, viewPhotos, addPhoto, nextPage, previousP
 const mapStateToProps = (state) => {
    if (!state.loaded)
       return {
-         contentData: {test : false}
+         contentData: {view : 'Loading...'}
       };
    if (state.albumId === 0)
       return {

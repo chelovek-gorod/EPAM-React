@@ -1,6 +1,15 @@
-export function loaded() {
+export function loaded(data) {
+   console.log('loaded');
+   console.log(data);
    return {
-      type: 'LOADED'
+      type: 'LOADED',
+      data: data
+   }
+}
+export function onError(error) {
+   return {
+      type: 'ON_ERROR',
+      data: error
    }
 }
 export function viewAlbums() {

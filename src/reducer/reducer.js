@@ -46,6 +46,9 @@ const reducer = (state = initialState, action) => {
    let obj = Object.assign({}, state);
    switch (action.type) {
       case 'LOADED': 
+         console.log(action.date);
+         return state;
+      case 'ON_ERROR': 
          return state;
       case 'VIEW_ALBUMS': 
          obj.albumId = 0;

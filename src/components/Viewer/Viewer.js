@@ -1,30 +1,29 @@
 import React from 'react';
 
-/*
-fetch("https://jsonplaceholder.typicode.com/albums")
-      .then(res => res.json())
-      .then(
-         (result) => {
-         let albums = result.filter(e => {
-            if (e.userId <= albumsToLoad) return e;
-          })
-          setItems(albums);
-        })
-        .catch((error) => {
-          setIsLoaded(true);
-          setError(error);
-        })
-  }, []);
-*/
+function getAlbums(props) {
+   fetch("https://jsonplaceholder.typicode.com/albums")
+   .then(res => res.json())
+   .then(
+      (result) => {
+      console.log(result);
+      props.loaded(result);
+     })
+     .catch((error) => {
+      props.onError(error);
+     })
+}
 
 function Viewer(props) {
 
-   if (props.contentData.test)
+   if (props.contentData.view === 'Loading...') {
+      getAlbums(props);
+      
       return (
          <div className = "wrapper">
-            Good
+            props.contentData.view
          </div>
       );
+   }
    
    return (
       <div className = "wrapper">
