@@ -42,8 +42,9 @@ function Content(props) {
     });
   }
 
-  function getButtonBack() {
-    if (!props.albums) return <button onClick = { props.showAlbums }>{'<-'}</button>
+  function getTopLine() {
+    if (props.albums) return <div className="top-bottom-box"><span className="title">Albums:</span></div>
+    return <div className="top-bottom-box"><span className="title">Photos:</span><button onClick = { props.showAlbums }>&#8592; Back to albums</button></div>
   }
 
   function getAddNew(size) {
@@ -68,14 +69,14 @@ function Content(props) {
   return (
     <div className="content border">
       <div className = "App">
-        { getButtonBack() }
+        { getTopLine() }
         { getContent(props.albums, props.view) }
         { getAddNew(props.view.length) }
       </div>
-      <div className = "pageLine">
-        <button onClick = { props.previousPage }>{'<<'}</button>
+      <div className = "top-bottom-box">
+        <button className = "left" onClick = { props.previousPage }>&#8592;</button>
         { getPages(props.pages) }
-        <button onClick = { props.nextPage }>{'>>'}</button>
+        <button className = "right" onClick = { props.nextPage }>&#8594;</button>
       </div>
     </div>
   );
@@ -105,7 +106,7 @@ function outputPhotos(photosArr, startPoint, lastPoint, maxSize) {
    return photosOutputArr;
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => { console.log(state);
 
    if (state.albumsArr.length === 0) return {loading : true};
 

@@ -32,13 +32,13 @@ const reducer = (state = initialState, action) => {
          return obj;
       case 'SHOW_PHOTOS':
          obj.showAlbums = false;
-         obj.currentAlbum = action.albumId;
+         obj.currentAlbum = action.albumId - 1;
          return obj;
       case 'ADD_ALBUM':
-         obj.albumsArr.push({id: obj.albumsArr.length,  photos: []});
+         obj.albumsArr.push({id: obj.albumsArr.length + 1,  photos: []});
          return obj;
       case 'ADD_PHOTO':
-         obj.albumsArr[obj.currentAlbum].photos.push('z' + obj.albumsArr[obj.currentAlbum].photos.length);
+         obj.albumsArr[obj.currentAlbum].photos.push('added # ' + obj.albumsArr[obj.currentAlbum].photos.length);
          return obj;
 
       case 'LOAD_ALBUMS':
