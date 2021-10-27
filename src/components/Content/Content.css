@@ -1,6 +1,12 @@
 .content {
+  position: relative;
   color: #00b6ff;
   background-color: #00000099;
+  height: 345px;
+}
+
+.content-container {
+  margin-top: 30px;
 }
 
 .album-div {
@@ -62,14 +68,22 @@
 }
 
 .top-bottom-box {
-  width: 100%;
+  width: 684px;
   height: 30px;
-  position: relative;
+  position: absolute;
 }
 
 .top-bottom-box .title {
   font-size: 22px;
   padding-left: 12px;
+}
+
+.top {
+  top: 10px;
+}
+
+.bottom {
+  bottom: 10px;
 }
 
 .top-bottom-box span {

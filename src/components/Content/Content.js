@@ -43,8 +43,8 @@ function Content(props) {
   }
 
   function getTopLine() {
-    if (props.albums) return <div className="top-bottom-box"><span className="title">Albums:</span></div>
-    return <div className="top-bottom-box"><span className="title">Photos:</span><button onClick = { props.showAlbums }>&#8592; Back to albums</button></div>
+    if (props.albums) return <div className="top-bottom-box top"><span className="title">Albums:</span></div>
+    return <div className="top-bottom-box top"><span className="title">Photos:</span><button onClick = { props.showAlbums }>&#8592; Back to albums</button></div>
   }
 
   function getAddNew(size) {
@@ -68,12 +68,12 @@ function Content(props) {
 
   return (
     <div className="content border">
-      <div className = "App">
-        { getTopLine() }
+      { getTopLine() }
+      <div className = "content-container">
         { getContent(props.albums, props.view) }
         { getAddNew(props.view.length) }
       </div>
-      <div className = "top-bottom-box">
+      <div className = "top-bottom-box bottom">
         <button className = "left" onClick = { props.previousPage }>&#8592;</button>
         { getPages(props.pages) }
         <button className = "right" onClick = { props.nextPage }>&#8594;</button>
@@ -118,17 +118,13 @@ const mapStateToProps = (state) => { console.log(state);
          Math.floor(state.albumsArr.length / state.elementsOnPage) + 1 :
          Math.floor(state.albumsArr[state.currentAlbum].photos.length / state.elementsOnPage) + 1
    }
-   if (state.showAlbums) return {
-      albums : state.showAlbums,
-      maxOnPage : state.elementsOnPage,
-      pages: pages,
-      view : outputAlbums(state.albumsArr, startPoint, lastPoint)
-   };
    return {
       albums : state.showAlbums,
       maxOnPage : state.elementsOnPage,
       pages: pages,
-      view : outputPhotos(state.albumsArr[state.currentAlbum].photos, startPoint, lastPoint)
+      view : (state.showAlbums) ?
+        outputAlbums(state.albumsArr, startPoint, lastPoint) :
+        outputPhotos(state.albumsArr[state.currentAlbum].photos, startPoint, lastPoint)
    };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -139,7 +135,6 @@ const mapDispatchToProps = (dispatch) => {
       showPhotos: (id) => dispatch(showPhotos(id)),
       addAlbum: () => dispatch(addAlbum()),
       addPhoto: () => dispatch(addPhoto()),
-
       loadAlbums: (arr) => dispatch(loadAlbums(arr))
    }
 };
