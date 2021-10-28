@@ -63,7 +63,7 @@ function Content(props) {
 
   if (props.loading) {
     getAlbums();
-    return (<div className="content border">Loading...</div>);
+    return (<div className="content border"><div className="top-bottom-box top"><span className="title">Loading...</span></div></div>);
   }
 
   return (
