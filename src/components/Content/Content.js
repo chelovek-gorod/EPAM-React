@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { nextPage, previousPage, showAlbums, showPhotos, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
+import Albums from '../Albums/Albums';
+import Photos from '../Photos/Photos';
+import TopLine from '../TopLine/TopLine';
+import BottomLine from '../BottomLine/BottomLine';
 
 import './Content.css';
 
@@ -33,32 +37,15 @@ function Content(props) {
   }
 
   function getContent(albums, arr) {
-    if (albums) return arr.map(album => {
-        return <div className="album-div" key={album} onClick={() => props.showPhotos(album)}><span>Album #{album}</span></div>
-    });
-
-    return arr.map(photo => {
-        return <div className="photo-div" key={photo} ><span>Photo {photo}</span></div>
-    });
-  }
-
-  function getTopLine() {
-    if (props.albums) return <div className="top-bottom-box top"><span className="title">Albums:</span></div>
-    return <div className="top-bottom-box top"><span className="title">Photos:</span><button onClick = { props.showAlbums }>&#8592; Back to albums</button></div>
+    if (albums) return arr.map(album => <Albums showPhotos={props.showPhotos} album={album} />);
+    return arr.map(photo => <Photos photo={photo} />);
   }
 
   function getAddNew(size) {
     if (size < props.maxOnPage) {
-        if (props.albums) return <div className="album-div add-album" key={'add'} onClick = { props.addAlbum }><span>add album</span></div>
-        return <div className="photo-div add-photo" key={'add'} onClick = { props.addPhoto }><span>add photo</span></div>
+        if (props.albums) return <div className="album-div add-album" key={size + 1} onClick = { props.addAlbum }><span>add album</span></div>
+        return <div className="photo-div add-photo" key={size + 1} onClick = { props.addPhoto }><span>add photo</span></div>
     }
-  }
-
-  function getPages(pages) {
-    if (pages.last === 1) return <span><b>{'[1]'}</b></span>
-    if (pages.current === 1) return <span><b>{'[1]'}</b>...{pages.last}</span>
-    if (pages.current === pages.last) return <span>1...<b>{'[' + pages.last + ']'}</b></span>
-    return <span>1...<b>{'[' + pages.current + ']'}</b>...{pages.last}</span>
   }
 
   if (props.loading) {
@@ -68,42 +55,25 @@ function Content(props) {
 
   return (
     <div className="content border">
-      { getTopLine() }
+      <TopLine showAlbums={props.showAlbums} albums={props.albums} />
       <div className = "content-container">
         { getContent(props.albums, props.view) }
         { getAddNew(props.view.length) }
       </div>
-      <div className = "top-bottom-box bottom">
-        <button className = "left" onClick = { props.previousPage }>&#8592;</button>
-        { getPages(props.pages) }
-        <button className = "right" onClick = { props.nextPage }>&#8594;</button>
-      </div>
+      <BottomLine previousPage={props.previousPage} nextPage={props.nextPage} pages={props.pages} />
     </div>
   );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-function outputAlbums(albumsArr, startPoint, lastPoint, maxSize) {
-   let albumsOutputArr = [];
+function outputItems(arr, startPoint, lastPoint, isAlbums) {
+   let outputArr = [];
    for (let i = startPoint; i < lastPoint; i++ ) {
-      if (albumsArr[i]) albumsOutputArr.push(albumsArr[i].id);
+      if (arr[i]) (isAlbums) ? outputArr.push(arr[i].id) : outputArr.push(arr[i]);
       else break;
    }
-   if (albumsOutputArr.length < maxSize) albumsOutputArr.push('add');
-   
-   return albumsOutputArr;
-}
-
-function outputPhotos(photosArr, startPoint, lastPoint, maxSize) {
-   let photosOutputArr = [];
-   for (let i = startPoint; i < lastPoint; i++ ) {
-      if (photosArr[i]) photosOutputArr.push(photosArr[i]);
-      else break;
-   }
-   if (photosOutputArr.length < maxSize) photosOutputArr.push('add');
-   
-   return photosOutputArr;
+   return outputArr;
 }
 
 const mapStateToProps = (state) => { console.log(state);
@@ -118,13 +88,12 @@ const mapStateToProps = (state) => { console.log(state);
          Math.floor(state.albumsArr.length / state.elementsOnPage) + 1 :
          Math.floor(state.albumsArr[state.currentAlbum].photos.length / state.elementsOnPage) + 1
    }
+   let toOutput = (state.showAlbums) ? state.albumsArr : state.albumsArr[state.currentAlbum].photos;
    return {
       albums : state.showAlbums,
       maxOnPage : state.elementsOnPage,
       pages: pages,
-      view : (state.showAlbums) ?
-        outputAlbums(state.albumsArr, startPoint, lastPoint) :
-        outputPhotos(state.albumsArr[state.currentAlbum].photos, startPoint, lastPoint)
+      view : outputItems(toOutput, startPoint, lastPoint, state.showAlbums)
    };
 };
 const mapDispatchToProps = (dispatch) => {
