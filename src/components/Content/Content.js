@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { nextPage, previousPage, showAlbums, showPhotos, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
+import { showAlbums, showPhotos, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
 import Albums from '../Albums/Albums';
 import Photos from '../Photos/Photos';
 import TopLine from '../TopLine/TopLine';
-import BottomLine from '../BottomLine/BottomLine';
 
 import './Content.css';
 
@@ -42,10 +41,8 @@ function Content(props) {
   }
 
   function getAddNew(size) {
-    if (size < props.maxOnPage) {
-        if (props.albums) return <div className="album-div add-album" key={size + 1} onClick = { props.addAlbum }><span>add album</span></div>
-        return <div className="photo-div add-photo" key={size + 1} onClick = { props.addPhoto }><span>add photo</span></div>
-    }
+    if (props.albums) return <div className="album-div add-album" key={size + 1} onClick = { props.addAlbum }><span>add album</span></div>
+    return <div className="photo-div add-photo" key={size + 1} onClick = { props.addPhoto }><span>add photo</span></div>
   }
 
   if (props.loading) {
@@ -60,46 +57,26 @@ function Content(props) {
         { getContent(props.albums, props.view) }
         { getAddNew(props.view.length) }
       </div>
-      <BottomLine previousPage={props.previousPage} nextPage={props.nextPage} pages={props.pages} />
     </div>
   );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-function outputItems(arr, startPoint, lastPoint, isAlbums) {
-   let outputArr = [];
-   for (let i = startPoint; i < lastPoint; i++ ) {
-      if (arr[i]) (isAlbums) ? outputArr.push(arr[i].id) : outputArr.push(arr[i]);
-      else break;
-   }
-   return outputArr;
-}
-
 const mapStateToProps = (state) => { console.log(state);
 
    if (state.albumsArr.length === 0) return {loading : true};
 
-   let startPoint = (state.showAlbums) ? state.pageAlbums * state.elementsOnPage : state.pagePhotos * state.elementsOnPage;
-   let lastPoint = startPoint + state.elementsOnPage;
-   let pages = {
-      current : (state.showAlbums) ? state.pageAlbums + 1 : state.pagePhotos + 1,
-      last : (state.showAlbums) ?
-         Math.floor(state.albumsArr.length / state.elementsOnPage) + 1 :
-         Math.floor(state.albumsArr[state.currentAlbum].photos.length / state.elementsOnPage) + 1
-   }
-   let toOutput = (state.showAlbums) ? state.albumsArr : state.albumsArr[state.currentAlbum].photos;
+   let toOutput = (state.showAlbums) ?
+    state.albumsArr.map(album => album.id) :
+    state.albumsArr[state.currentAlbum].photos.map(photo => photo);
    return {
       albums : state.showAlbums,
-      maxOnPage : state.elementsOnPage,
-      pages: pages,
-      view : outputItems(toOutput, startPoint, lastPoint, state.showAlbums)
+      view : toOutput
    };
 };
 const mapDispatchToProps = (dispatch) => {
    return {
-      nextPage: () => dispatch(nextPage()),
-      previousPage: () => dispatch(previousPage()),
       showAlbums: () => dispatch(showAlbums()),
       showPhotos: (id) => dispatch(showPhotos(id)),
       addAlbum: () => dispatch(addAlbum()),
