@@ -1,10 +1,10 @@
 import React from 'react';
 import './Photos.css';
 
-function Photos(props) {
+function Photos({photo}) {
   return (
-    <div className="photo-div" key={props.photo}>
-        <span>{props.photo}</span>
+    <div className="photo-div">
+        <span>{photo}</span>
     </div>
   );
 }

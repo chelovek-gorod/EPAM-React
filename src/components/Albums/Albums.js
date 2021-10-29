@@ -1,11 +1,10 @@
 import React from 'react';
 import './Albums.css';
 
-function Album(props) {
-  console.log('key =',props.album);
+function Album({ album, showPhotos }) {
   return (
-    <div className="album-div" key={props.album} onClick={() => props.showPhotos(props.album)}>
-        <span>Album #{props.album}</span>
+    <div className="album-div" onClick={() => showPhotos(album)}>
+        <span>Album #{album}</span>
     </div>
   );
 }

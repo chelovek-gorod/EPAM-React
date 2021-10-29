@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { nextPage, previousPage, showAlbums, showPhotos, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
+import { goToNextPage, goToPreviousPage, showAlbums, showPhotos, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
 import Albums from '../Albums/Albums';
 import Photos from '../Photos/Photos';
 import TopLine from '../TopLine/TopLine';
@@ -14,7 +14,7 @@ function Content(props) {
     fetch("https://jsonplaceholder.typicode.com/albums")
       .then(res => res.json())
       .then((result) => {
-          sortAlbums(result);
+        sortAlbums(result);
       })
       .catch((error) => {
         console.log(error);
@@ -37,8 +37,8 @@ function Content(props) {
   }
 
   function getContent(albums, arr) {
-    if (albums) return arr.map(album => <Albums showPhotos={props.showPhotos} album={album} />);
-    return arr.map(photo => <Photos photo={photo} />);
+    if (albums) return arr.map(album => <Albums showPhotos={props.showPhotos} album={album} key={album} />);
+    return arr.map((photo, index) => <Photos photo={photo} key={index}/>);
   }
 
   function getAddNew(size) {
@@ -60,7 +60,7 @@ function Content(props) {
         { getContent(props.albums, props.view) }
         { getAddNew(props.view.length) }
       </div>
-      <BottomLine previousPage={props.previousPage} nextPage={props.nextPage} pages={props.pages} />
+      <BottomLine goToPreviousPage={props.goToPreviousPage} goToNextPage={props.goToNextPage} pages={props.pages} />
     </div>
   );
 }
@@ -76,7 +76,7 @@ function outputItems(arr, startPoint, lastPoint, isAlbums) {
    return outputArr;
 }
 
-const mapStateToProps = (state) => { console.log(state);
+const mapStateToProps = (state) => {
 
    if (state.albumsArr.length === 0) return {loading : true};
 
@@ -98,8 +98,8 @@ const mapStateToProps = (state) => { console.log(state);
 };
 const mapDispatchToProps = (dispatch) => {
    return {
-      nextPage: () => dispatch(nextPage()),
-      previousPage: () => dispatch(previousPage()),
+      goToNextPage: () => dispatch(goToNextPage()),
+      goToPreviousPage: () => dispatch(goToPreviousPage()),
       showAlbums: () => dispatch(showAlbums()),
       showPhotos: (id) => dispatch(showPhotos(id)),
       addAlbum: () => dispatch(addAlbum()),

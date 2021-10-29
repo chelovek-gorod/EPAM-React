@@ -15,14 +15,13 @@ function toPage(obj, page, toNext) {
 }
 
 const reducer = (state = initialState, action) => {
-
-   let obj = Object.assign({}, state);
+   let obj = {...state};
    switch (action.type) {
-      case 'NEXT_PAGE':
+      case 'GO_TO_NEXT_PAGE':
          if (obj.showAlbums) obj.pageAlbums = toPage(obj, obj.pageAlbums, true);
          else obj.pagePhotos = toPage(obj, obj.pagePhotos, true);
          return obj;
-      case 'PREVIOUS_PAGE': 
+      case 'GO_TO_PREVIOUS_PAGE': 
          if (obj.showAlbums) obj.pageAlbums = toPage(obj, obj.pageAlbums, false);
          else obj.pagePhotos = toPage(obj, obj.pagePhotos, false);
          return obj;

@@ -1,11 +1,11 @@
-export function nextPage() {
+export function goToNextPage() {
    return {
-      type: 'NEXT_PAGE'
+      type: 'GO_TO_NEXT_PAGE'
    }
 }
-export function previousPage() {
+export function goToPreviousPage() {
    return {
-      type: 'PREVIOUS_PAGE'
+      type: 'GO_TO_PREVIOUS_PAGE'
    }
 }
 export function showAlbums() {
@@ -16,7 +16,7 @@ export function showAlbums() {
 export function showPhotos(albumId) {
    return {
       type: 'SHOW_PHOTOS',
-      albumId : albumId
+      albumId
    }
 }
 export function addAlbum() {
@@ -32,6 +32,6 @@ export function addPhoto() {
 export function loadAlbums(arr) {
    return {
       type: 'LOAD_ALBUMS',
-      arr : arr
+      arr
    }
 }
