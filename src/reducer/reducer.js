@@ -15,7 +15,7 @@ function toPage(obj, page, toNext) {
 }
 
 const reducer = (state = initialState, action) => {
-   let obj = {...state};
+   let obj = { ...state, albumsArr: [ ...state.albumsArr] };
    switch (action.type) {
       case 'GO_TO_NEXT_PAGE':
          if (obj.showAlbums) obj.pageAlbums = toPage(obj, obj.pageAlbums, true);
