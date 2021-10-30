@@ -1,4 +1,19 @@
 .content {
+  position: relative;
   color: #00b6ff;
   background-color: #00000099;
+  height: 345px;
+}
+
+.content-container {
+  margin-top: 30px;
+}
+
+.add-album {
+  background-image: url('../../img/folder-add.png');
+}
+
+.add-photo {
+  background-image: url('../../img/photo-add.png');
+  cursor: pointer;
 }

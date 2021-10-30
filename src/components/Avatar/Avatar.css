@@ -1,5 +1,10 @@
 .avatar {
   display: inline-block;
   width: 300px;
-  height: 300px;
+  height: 200px;
+  text-align: center;
+}
+
+.avatar img {
+  max-height: 100%;
 }

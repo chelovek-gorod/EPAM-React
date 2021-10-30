@@ -6,7 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: url(./img/react-bg.jpg);
-  background-position: center center;
+  background-position: center top;
 }
 
 code {
