@@ -3,7 +3,7 @@ import './Photos.css';
 
 function Photos(props) {
   return (
-    <div className="photo-div" key={props.photo}>
+    <div className="photo-div">
         <span>{props.photo}</span>
     </div>
   );

@@ -1,0 +1,11 @@
+.my-modal {
+  margin: 90px auto;
+  width: 380px;
+  height: 280px;
+  padding: 20px;
+  text-align: center;
+  border: solid 1px #ffffff;
+  border-radius: 12px;
+  box-shadow: 1px 2px 3px #00b6ff;
+}
+  

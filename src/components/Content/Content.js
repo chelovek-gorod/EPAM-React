@@ -1,9 +1,13 @@
 import React from 'react';
+
+import ReactDOM from 'react-dom';
+
 import { connect } from 'react-redux';
 import { showAlbums, showPhotos, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
 import Albums from '../Albums/Albums';
 import Photos from '../Photos/Photos';
 import TopLine from '../TopLine/TopLine';
+import Modal from '../Modal/Modal';
 
 import './Content.css';
 
@@ -36,18 +40,27 @@ function Content(props) {
   }
 
   function getContent(albums, arr) {
-    if (albums) return arr.map(album => <Albums showPhotos={props.showPhotos} album={album} />);
-    return arr.map(photo => <Photos photo={photo} />);
+    if (albums) return arr.map(album => <Albums key={album}  showPhotos={props.showPhotos} album={album} />);
+    return arr.map(photo => <Photos key={photo} photo={photo} />);
   }
 
   function getAddNew(size) {
-    if (props.albums) return <div className="album-div add-album" key={size + 1} onClick = { props.addAlbum }><span>add album</span></div>
+    if (props.albums) return <div className="album-div add-album" key={size + 1} onClick = { showPopUp }><span>add album</span></div>
+    //if (props.albums) return <div className="album-div add-album" key={size + 1} onClick = { props.addAlbum }><span>add album</span></div>
     return <div className="photo-div add-photo" key={size + 1} onClick = { props.addPhoto }><span>add photo</span></div>
   }
 
   if (props.loading) {
     getAlbums();
     return (<div className="content border"><div className="top-bottom-box top"><span className="title">Loading...</span></div></div>);
+  }
+
+  function showPopUp(props) {
+    console.log('i\'m showPopUp()');
+
+    return ReactDOM.createPortal(
+      <Modal props={props} />, document.getElementById('popUp'),
+    );
   }
 
   return (
