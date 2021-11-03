@@ -1,0 +1,23 @@
+.album-div {
+  display: inline-block;
+  width: 30%;
+  margin: 1.5%;
+  height: 120px;
+  background-image: url('../../img/folder.png');
+  background-position: center 10%;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  border: solid 1px #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.album-div span {
+  margin-top: 90px;
+  color: rgb(255 255 255);
+  width: 100%;
+  text-align: center;
+  text-shadow: 1px 2px 3px #00b6ff;
+  display: inline-block;
+}
+  
