@@ -16,3 +16,11 @@
   background-image: url('../../img/photo-add.png');
   cursor: pointer;
 }
+
+.previous {
+  position: absolute;
+  right: 24px;
+  top: 16px;
+  color: white;
+  font-size: 12px;  
+}

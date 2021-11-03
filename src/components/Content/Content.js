@@ -1,6 +1,6 @@
 import React from 'react';
-
 import ReactDOM from 'react-dom';
+import { useEffect, useRef } from "react";
 
 import { connect } from 'react-redux';
 import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
@@ -42,6 +42,8 @@ function Content(props) {
     setTimeout(props.loadAlbums, 1000, albumsArr);
   }
 
+  const previousAlbum = usePrevious(props.currentAlbum);
+
   let key = 0;
   function getKey() {
     return key++;
@@ -70,18 +72,27 @@ function Content(props) {
     );
   }
 
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    }, [value]);
+    return (props.albums && ref.current) ? 'previous album #' + ref.current : '';
+  }
+
   return (
     <div className="content border">
-      <ScrollToBottom />
-      <TopLine showAlbums={props.showAlbums} albums={props.albums} />
-      <div className = "content-container">
-        <ErrorBoundary>
+      <ErrorBoundary>
+        <ScrollToBottom />
+        <div className="previous">{ previousAlbum }</div>
+        <TopLine showAlbums={props.showAlbums} albums={props.albums} />
+        <div className = "content-container">
           { getContent(props.albums, props.view) }
           { getAddNew(props.view.length) }
           { showPopUp(props.popup, props.albums) }
-        </ErrorBoundary>
-      </div>
-      <div id="bottomSide"></div>
+        </div>
+        <div id="bottomSide"></div>
+      </ErrorBoundary>
     </div>
   );
 }
@@ -99,7 +110,8 @@ const mapStateToProps = (state) => {
       albums : state.showAlbums,
       view : toOutput,
       popup : state.isPopup,
-      inputValue : state.inputValue
+      inputValue : state.inputValue,
+      currentAlbum : state.currentAlbum
    };
 };
 const mapDispatchToProps = (dispatch) => {
