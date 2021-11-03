@@ -8,6 +8,7 @@ import Albums from '../Albums/Albums';
 import Photos from '../Photos/Photos';
 import TopLine from '../TopLine/TopLine';
 import Modal from '../Modal/Modal';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 import './Content.css';
 
@@ -71,9 +72,11 @@ function Content(props) {
     <div className="content border">
       <TopLine showAlbums={props.showAlbums} albums={props.albums} />
       <div className = "content-container">
-        { getContent(props.albums, props.view) }
-        { getAddNew(props.view.length) }
-        { showPopUp(props.popup, props.albums) }
+        <ErrorBoundary>
+          { getContent(props.albums, props.view) }
+          { getAddNew(props.view.length) }
+          { showPopUp(props.popup, props.albums) }
+        </ErrorBoundary>
       </div>
     </div>
   );
