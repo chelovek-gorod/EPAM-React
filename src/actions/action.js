@@ -19,14 +19,22 @@ export function hidePopup() {
       type: 'HIDE_POPUP'
    }
 }
-export function addAlbum() {
+export function changeInput(value) {
    return {
-      type: 'ADD_ALBUM'
+      type: 'CHANGE_INPUT',
+      value : value
    }
 }
-export function addPhoto() {
+export function addAlbum(name) {
+   return {
+      type: 'ADD_ALBUM',
+      name : name
+   }
+}
+export function addPhoto(name) {
    return {
       type: 'ADD_PHOTO',
+      name : name
    }
 }
 export function loadAlbums(arr) {

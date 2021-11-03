@@ -2,7 +2,8 @@ const initialState = {
    albumsArr : [],
    showAlbums : true,
    currentAlbum : 0,
-   isPopup : false
+   isPopup : false,
+   inputValue : '' 
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,12 +22,16 @@ const reducer = (state = initialState, action) => {
          return obj;
       case 'HIDE_POPUP':
          obj.isPopup = false;
+         obj.inputValue = '';
          return obj;
       case 'ADD_ALBUM':
-         obj.albumsArr.push({id: obj.albumsArr.length + 1,  photos: []});
+         obj.albumsArr.push({id: obj.albumsArr.length + 1, name: action.name, photos: []});
+         return obj;
+      case 'CHANGE_INPUT':
+         obj.inputValue = action.value;
          return obj;
       case 'ADD_PHOTO':
-         obj.albumsArr[obj.currentAlbum].photos.push('added # ' + obj.albumsArr[obj.currentAlbum].photos.length);
+         obj.albumsArr[obj.currentAlbum].photos.push(action.name);
          return obj;
 
       case 'LOAD_ALBUMS':
