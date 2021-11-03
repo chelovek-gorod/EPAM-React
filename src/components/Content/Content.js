@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
+
+import ScrollToBottom from '../ScrollToBottom/ScrollToBottom';
 import Albums from '../Albums/Albums';
 import Photos from '../Photos/Photos';
 import TopLine from '../TopLine/TopLine';
@@ -70,6 +72,7 @@ function Content(props) {
 
   return (
     <div className="content border">
+      <ScrollToBottom />
       <TopLine showAlbums={props.showAlbums} albums={props.albums} />
       <div className = "content-container">
         <ErrorBoundary>
@@ -78,13 +81,14 @@ function Content(props) {
           { showPopUp(props.popup, props.albums) }
         </ErrorBoundary>
       </div>
+      <div id="bottomSide"></div>
     </div>
   );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-const mapStateToProps = (state) => { console.log(state);
+const mapStateToProps = (state) => {
 
    if (state.albumsArr.length === 0) return {loading : true};
 
