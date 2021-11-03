@@ -9,6 +9,16 @@ export function showPhotos(albumId) {
       albumId : albumId
    }
 }
+export function showPopup() {
+   return {
+      type: 'SHOW_POPUP'
+   }
+}
+export function hidePopup() {
+   return {
+      type: 'HIDE_POPUP'
+   }
+}
 export function addAlbum() {
    return {
       type: 'ADD_ALBUM'

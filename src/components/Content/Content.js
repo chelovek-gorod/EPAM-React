@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
-import { showAlbums, showPhotos, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
+import { showAlbums, showPhotos, showPopup, hidePopup, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
 import Albums from '../Albums/Albums';
 import Photos from '../Photos/Photos';
 import TopLine from '../TopLine/TopLine';
@@ -45,7 +45,7 @@ function Content(props) {
   }
 
   function getAddNew(size) {
-    if (props.albums) return <div className="album-div add-album" key={size + 1} onClick = { showPopUp }><span>add album</span></div>
+    if (props.albums) return <div className="album-div add-album" key={size + 1} onClick = { props.showPopup }><span>add album</span></div>
     //if (props.albums) return <div className="album-div add-album" key={size + 1} onClick = { props.addAlbum }><span>add album</span></div>
     return <div className="photo-div add-photo" key={size + 1} onClick = { props.addPhoto }><span>add photo</span></div>
   }
@@ -55,11 +55,9 @@ function Content(props) {
     return (<div className="content border"><div className="top-bottom-box top"><span className="title">Loading...</span></div></div>);
   }
 
-  function showPopUp(props) {
-    console.log('i\'m showPopUp()');
-
-    return ReactDOM.createPortal(
-      <Modal props={props} />, document.getElementById('popUp'),
+  function showPopUp(popup) {
+    if (popup) return ReactDOM.createPortal (
+      <Modal albums={props.albums} hidePopup={props.hidePopup} />, document.body,
     );
   }
 
@@ -69,6 +67,7 @@ function Content(props) {
       <div className = "content-container">
         { getContent(props.albums, props.view) }
         { getAddNew(props.view.length) }
+        { showPopUp(props.popup) }
       </div>
     </div>
   );
@@ -85,13 +84,16 @@ const mapStateToProps = (state) => { console.log(state);
     state.albumsArr[state.currentAlbum].photos.map(photo => photo);
    return {
       albums : state.showAlbums,
-      view : toOutput
+      view : toOutput,
+      popup : state.isPopup
    };
 };
 const mapDispatchToProps = (dispatch) => {
    return {
       showAlbums: () => dispatch(showAlbums()),
       showPhotos: (id) => dispatch(showPhotos(id)),
+      showPopup: () => dispatch(showPopup()),
+      hidePopup: () => dispatch(hidePopup()),
       addAlbum: () => dispatch(addAlbum()),
       addPhoto: () => dispatch(addPhoto()),
       loadAlbums: (arr) => dispatch(loadAlbums(arr))

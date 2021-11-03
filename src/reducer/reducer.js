@@ -1,7 +1,8 @@
 const initialState = {
    albumsArr : [],
    showAlbums : true,
-   currentAlbum : 0
+   currentAlbum : 0,
+   isPopup : false
 };
 
 const reducer = (state = initialState, action) => {
@@ -14,6 +15,12 @@ const reducer = (state = initialState, action) => {
       case 'SHOW_PHOTOS':
          obj.showAlbums = false;
          obj.currentAlbum = action.albumId - 1;
+         return obj;
+      case 'SHOW_POPUP':
+         obj.isPopup = true;
+         return obj;
+      case 'HIDE_POPUP':
+         obj.isPopup = false;
          return obj;
       case 'ADD_ALBUM':
          obj.albumsArr.push({id: obj.albumsArr.length + 1,  photos: []});
