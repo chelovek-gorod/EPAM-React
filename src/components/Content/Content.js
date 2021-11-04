@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useEffect, useRef } from "react";
 
 import { connect } from 'react-redux';
-import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums } from '../../actions/action';
+import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums, toLogin, toLogout } from '../../actions/action';
 
 import ScrollToBottom from '../ScrollToBottom/ScrollToBottom';
 import Albums from '../Albums/Albums';
@@ -36,12 +36,12 @@ function Content(props) {
     for (let i = 0; i < arrSize; i++) {
         if (currentId !== albums[i].userId) {
           currentId = albums[i].userId;
-          albumsArr.push({ id: currentId, name: `Album #${currentId}`, photos: [albums[i].title]});
+          albumsArr.push({ id: currentId, userId: currentId, name: `Album #${currentId}`, photos: [albums[i].title] });
         } else {
           albumsArr[currentId - 1].photos.push(albums[i].title);
         }
     }
-    setTimeout(props.loadAlbums, 1000, albumsArr);
+    props.loadAlbums(albumsArr);
   }
 
   const previousAlbum = usePrevious(props.currentAlbum);
@@ -82,9 +82,15 @@ function Content(props) {
     return (props.albums && ref.current) ? 'previous album #' + ref.current : '';
   }
 
+  function getHeader(user) {
+    if (user) return <div className="header"><button className="login-logout" >logout</button></div>;
+    return <div className="header"><button className="login-logout" >login</button></div>;
+  }
+
   return (
     <div className="content border">
       <ErrorBoundary>
+        <div className="header-container">{ getHeader(props.user) }</div>
         <ScrollToBottom />
         <div className="previous">{ previousAlbum }</div>
         <TopLine showAlbums={props.showAlbums} albums={props.albums} />
@@ -111,6 +117,7 @@ const mapStateToProps = (state) => {
    return {
       albums : state.showAlbums,
       view : toOutput,
+      user : state.userLoginId,
       popup : state.isPopup,
       inputValue : state.inputValue,
       currentAlbum : state.currentAlbum
@@ -125,7 +132,9 @@ const mapDispatchToProps = (dispatch) => {
       changeInput: (value) => dispatch(changeInput(value)),
       addAlbum: (name) => dispatch(addAlbum(name)),
       addPhoto: (name) => dispatch(addPhoto(name)),
-      loadAlbums: (arr) => dispatch(loadAlbums(arr))
+      loadAlbums: (arr) => dispatch(loadAlbums(arr)),
+      toLogin: (userId) => dispatch(toLogin(userId)),
+      toLogout: () => dispatch(toLogout())
    }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Content);

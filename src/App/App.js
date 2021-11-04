@@ -15,6 +15,7 @@ import './App.css';
   /user/:userId --------------------- * ------------- /login ------- Only for authorized users. User information and list of user albums
   /user/:userId/albums/:albumId       *               /login         Only for authorized users. User information and list of albumId photos
   /, /home -------------------- /user/:userId ------ /albums --------------------------------------------------------------------------------
+  
 */
 
 function App() {

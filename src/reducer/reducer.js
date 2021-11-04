@@ -3,7 +3,8 @@ const initialState = {
    showAlbums : true,
    currentAlbum : 0,
    isPopup : false,
-   inputValue : '' 
+   userLoginId : 0,
+   inputValue : ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -38,6 +39,13 @@ const reducer = (state = initialState, action) => {
          obj.albumsArr = [...action.arr];
          return obj;
       default: return state;
+
+      case 'TO_LOGIN':
+         obj.userLoginId = action.userId;
+         return obj;
+      case 'TO_LOGOUT':
+         obj.userLoginId = 0;
+         return obj;
    }
 }
 export default reducer;

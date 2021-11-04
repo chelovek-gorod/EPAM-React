@@ -43,3 +43,15 @@ export function loadAlbums(arr) {
       arr : arr
    }
 }
+
+export function toLogin(userId) {
+   return {
+      type: 'TO_LOGIN',
+      userId : userId
+   }
+}
+export function toLogout() {
+   return {
+      type: 'TO_LOGOUT'
+   }
+}
