@@ -16,6 +16,8 @@ import './Content.css';
 
 function Content(props) {
 
+  console.log(props.type);
+
   function getAlbums() {
     fetch("https://jsonplaceholder.typicode.com/albums")
       .then(res => res.json())
@@ -27,7 +29,7 @@ function Content(props) {
       })
   }
 
-  function sortAlbums(albums) {
+  function sortAlbums(albums) { console.log(albums);
     let albumsArr = [];
     let currentId = 0;
     let arrSize = albums.length;
