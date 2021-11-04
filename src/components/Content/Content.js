@@ -10,6 +10,7 @@ import Albums from '../Albums/Albums';
 import Photos from '../Photos/Photos';
 import TopLine from '../TopLine/TopLine';
 import Modal from '../Modal/Modal';
+import Login from '../Login/Login';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 import './Content.css';
@@ -86,6 +87,15 @@ function Content(props) {
     if (user) return <div className="header"><button className="login-logout" >logout</button></div>;
     return <div className="header"><button className="login-logout" >login</button></div>;
   }
+
+  if (props.type === 'login') return (
+    <div className="content border">
+      <ErrorBoundary>
+        <div className="header-container">{ getHeader(props.user) }</div>
+        <Login inputValue={props.inputValue} changeInput={props.changeInput} toLogin={props.toLogin} />
+      </ErrorBoundary>
+    </div>
+  );
 
   return (
     <div className="content border">

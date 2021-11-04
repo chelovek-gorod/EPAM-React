@@ -1,0 +1,36 @@
+input {
+  margin-top: 60px;
+  width: 312px;
+  height: 24px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 18px;
+}
+
+button {
+  position: absolute;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 18px;
+  background-color: #00b7ff;
+  cursor: pointer;
+}
+
+.clear {
+  bottom: 12px;
+  left: 12px;
+  width: 150px;
+  height: 32px;
+  padding: 2px 0 0 2px;
+  font-size: 18px;
+  background-color: inherit;
+}
+
+.login {
+  bottom: 12px;
+  right: 12px;
+  width: 150px;
+  height: 32px;
+  padding: 2px 0 0 2px;
+  font-size: 18px;
+}
