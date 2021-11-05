@@ -3,17 +3,6 @@ import './Login.css';
 
 function Login(props) {
 
-  function addNew() {
-    let newValue = props.inputValue.trim();
-    if (newValue.length) {
-      props.add(newValue);
-      props.changeInput('');
-      props.hidePopup();
-    } else {
-      alert('ERROR: Empty input!');
-    }
-  }
-
   function changeInputLogin() {
     let input = document.getElementById('inputLogin');
     props.changeInput({ id: input, value: input.value });
@@ -38,7 +27,8 @@ function Login(props) {
     if (document.getElementById('inputPass').value.trim() === 'pass') {
       let login = +document.getElementById('inputLogin').value;
       if (Number.isInteger(login) && login > 0 && login < 11) {
-        alert('OK!!!');
+        console.log('Login OK!');
+        props.toLogin(login);
       } else alert('WRONG LOGIN!\nYour login is:\n1, 2, 3, 4, 5, 6, 7, 8, 9 or 10');
     } else alert('WRONG PASSWORD!\nYour password is:\npass');
   }

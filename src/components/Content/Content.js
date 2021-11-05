@@ -6,13 +6,16 @@ import { Link, Navigate } from "react-router-dom";
 import { connect } from 'react-redux';
 import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums, toLogin, toLogout } from '../../actions/action';
 
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+
+import UserDetails from '../UserDetails/UserDetails';
 import ScrollToBottom from '../ScrollToBottom/ScrollToBottom';
 import Albums from '../Albums/Albums';
 import Photos from '../Photos/Photos';
 import TopLine from '../TopLine/TopLine';
 import Modal from '../Modal/Modal';
 import Login from '../Login/Login';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+
 
 import './Content.css';
 
@@ -26,7 +29,7 @@ function Content(props) {
     fetch("https://jsonplaceholder.typicode.com/albums")
       .then(res => res.json())
       .then((result) => {
-          sortAlbums(result);
+        sortAlbums(result);
       })
       .catch((error) => {
         console.log(error);
@@ -53,12 +56,14 @@ function Content(props) {
     // login
     console.log('user is auth');
     if (props.type === 'login') {
+      console.log('REDIRECT TO: /user/:userId');
       return <Navigate replace to="/user/:userId" />;
     }
   } else {
     // logout
     console.log('need login');
-    if (props.type === 'user albums' || props.type === '/user/:userId/albums/:albumId') {
+    if (props.type === 'user albums' || props.type === 'user photos') {
+      console.log('REDIRECT TO: /login');
       return <Navigate replace to="/login" />;
     }
   }
@@ -99,41 +104,57 @@ function Content(props) {
     return (props.albums && ref.current) ? 'previous album #' + ref.current : '';
   }
 
-  function getHeader(user) {
-    if (user) return <div className="header"><button className="login-logout" >logout</button></div>;
-    return <div className="header"><button className="login-logout" >login</button></div>;
+  function clickLogout () {
+    props.toLogin('');
+    return <Navigate replace to="/albums" />;
   }
 
-  if (props.type === 'login') return (
-    <div className="content border">
-      <ErrorBoundary>
-        <div className="header-container">{ getHeader(props.user) }</div>
-        <Login inputValue={props.inputValue} changeInput={props.changeInput} toLogin={props.toLogin} />
-      </ErrorBoundary>
-    </div>
-  );
+  function getHeaderLogin(user) {
+    if (user) return <Link className="login-logout" onClick={ clickLogout } to="/albums">logout</Link>;
+    return <Link className="login-logout" to="/login">login</Link>;
+  }
 
   return (
-    <div className="content border">
-      <ErrorBoundary>
-        <div className="header-container">{ getHeader(props.user) }</div>
-        <ScrollToBottom />
-        <div className="previous">{ previousAlbum }</div>
-        <TopLine showAlbums={props.showAlbums} albums={props.albums} />
-        <div className = "content-container">
-          { getContent(props.albums, props.view) }
-          { getAddNew(props.view.length) }
-          { showPopUp(props.popup, props.albums) }
+    <ErrorBoundary>
+
+      <div className="header-container">
+        <div className="header">
+          <div className="linksLine">
+            <Link className="link" to="/">HOME</Link>
+            <Link className="link" to="/albums">ALBUMS</Link>
+            <Link className="link" to="/user/:userId">USER</Link>
+          </div>
+          { getHeaderLogin(props.user) }
         </div>
-        <div id="bottomSide"></div>
-      </ErrorBoundary>
-    </div>
+      </div>
+
+      { (props.user && props.type !== 'all albums' && props.type !== 'all photos') ? <UserDetails /> : null}
+
+      <div className="content border">
+
+        { (props.type === 'login') ? (<Login inputValue={props.inputValue} changeInput={props.changeInput} toLogin={props.toLogin} />) : (
+          <>
+            <ScrollToBottom />
+            <div className="previous">{ previousAlbum }</div>
+            <TopLine showAlbums={props.showAlbums} albums={props.albums} />
+            <div className = "content-container">
+              { getContent(props.albums, props.view) }
+              { getAddNew(props.view.length) }
+              { showPopUp(props.popup, props.albums) }
+            </div>
+            <div id="bottomSide"></div>
+          </>
+        ) }
+
+      </div>
+    </ErrorBoundary>
   );
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => { console.log(state);
 
    if (state.albumsArr.length === 0) return {loading : true};
 

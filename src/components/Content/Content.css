@@ -20,15 +20,32 @@
   padding: 10px;
   border: solid 1px white;
   border-radius: 12px;
+  background-color: #00000099;
+}
+
+.linksLine {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.link {
+  font-size: 20px;
+  text-decoration: none;
+  margin-right: 50px;
+  color: white;
+  text-shadow: 0px 0px 11px #000000;
+  cursor: pointer;
 }
 
 .login-logout {
   position: absolute;
   right: 20px;
-  height: 30px;
+  height: 28px;
   width: 120px;
   font-size: 18px;
   font-weight: 700;
+  text-decoration: none;
+  text-align: center;
   color: #ffffff;
   background-color: #000000cc;
   border: solid 2px #00b6ff;
