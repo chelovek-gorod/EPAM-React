@@ -26,7 +26,7 @@ const reducer = (state = initialState, action) => {
          obj.inputValue = '';
          return obj;
       case 'ADD_ALBUM':
-         obj.albumsArr.push({id: obj.albumsArr.length + 1, name: action.name, photos: []});
+         obj.albumsArr.push({id: obj.albumsArr.length + 1, userId: obj.userLoginId , name: action.name, photos: []});
          return obj;
       case 'CHANGE_INPUT':
          obj.inputValue = {id : action.id, value: action.value};

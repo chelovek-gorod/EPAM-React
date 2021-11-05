@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect, useRef } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Routes, Route, Link, Navigate } from "react-router-dom"; // Routes
+import { useNavigate } from 'react-router-dom';
+
+import {browserHistory} from 'react-router'
 
 import { connect } from 'react-redux';
 import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums, toLogin, toLogout } from '../../actions/action';
@@ -21,9 +24,10 @@ import './Content.css';
 
 function Content(props) {
 
-  console.log(props.type);
+  console.log('URL TYPE =', props.type); console.log('USER =', props.user, typeof props.user);
 
   const previousAlbum = usePrevious(props.currentAlbum);
+  const navigate = useNavigate();
 
   function getAlbums() {
     fetch("https://jsonplaceholder.typicode.com/albums")
@@ -73,9 +77,36 @@ function Content(props) {
     return key++;
   }
 
-  function getContent(albums, arr) {
-    if (albums) return arr.map(album => <Albums key={album.id} albumId={album.id} showPhotos={props.showPhotos} album={album.name} />);
+  function getContent(albums, arr, user) { console.log('getContent(user) =', user, typeof user);
+    if (albums) {
+      if (props.type === 'user albums') {
+        let userAlbums = arr.filter(album => album.user === user);
+        return userAlbums.map(album => <Albums key={album.id} albumId={album.id} showPhotos={props.showPhotos} album={album.name} />);
+      }
+      return arr.map(album => <Albums key={album.id} albumId={album.id} showPhotos={props.showPhotos} album={album.name} />);
+    }
+    //navigate('/albums/:albumId', { replace: true })
     return arr.map(photo => <Photos key={getKey()} photo={photo} />);
+    /*
+    return (
+      <Routes>
+         <Route path="/albums/:albumId" element={ arr.map(photo => <Photos key={getKey()} photo={photo} />) } />
+      </Routes>
+    );
+    */
+
+
+    /*
+    navigate('/albums/:albumId', { replace: false });
+    return arr.map(photo => <Photos key={getKey()} photo={photo} />);
+
+    return (
+      <>
+        <Navigate replace to="/albums/:albumId" />
+        {arr.map(photo => <Photos key={getKey()} photo={photo} />)}
+      </>
+    )
+    */
   }
 
   function getAddNew(size) {
@@ -120,15 +151,14 @@ function Content(props) {
       <div className="header-container">
         <div className="header">
           <div className="linksLine">
-            <Link className="link" to="/">HOME</Link>
-            <Link className="link" to="/albums">ALBUMS</Link>
-            <Link className="link" to="/user/:userId">USER</Link>
+            <Link className="link" to="/">HOME PAGE</Link>
+            <Link className="link" to="/albums">ALL ALBUMS</Link>
           </div>
           { getHeaderLogin(props.user) }
         </div>
       </div>
 
-      { (props.user && props.type !== 'all albums' && props.type !== 'all photos') ? <UserDetails /> : null}
+      { (props.user && ( props.type === 'user albums' || props.type === 'user photos')) ? <UserDetails /> : null}
 
       <div className="content border">
 
@@ -138,8 +168,8 @@ function Content(props) {
             <div className="previous">{ previousAlbum }</div>
             <TopLine showAlbums={props.showAlbums} albums={props.albums} />
             <div className = "content-container">
-              { getContent(props.albums, props.view) }
-              { getAddNew(props.view.length) }
+              { getContent(props.albums, props.view, props.user) }
+              { (props.user && (props.type === 'user albums' || props.type === 'user photos') ) ? getAddNew(props.view.length) : null }
               { showPopUp(props.popup, props.albums) }
             </div>
             <div id="bottomSide"></div>
@@ -159,7 +189,7 @@ const mapStateToProps = (state) => { console.log(state);
    if (state.albumsArr.length === 0) return {loading : true};
 
    let toOutput = (state.showAlbums) ?
-    state.albumsArr.map(album => { return {id: album.id, name: album.name};}) :
+    state.albumsArr.map(album => { return {id: album.id, user: album.userId, name: album.name};}) :
     state.albumsArr[state.currentAlbum].photos.map(photo => photo);
    return {
       albums : state.showAlbums,
