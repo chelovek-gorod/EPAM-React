@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect, useRef } from "react";
-import { Routes, Route, Link, Navigate } from "react-router-dom"; // Routes
-import { useNavigate } from 'react-router-dom';
-
-import {browserHistory} from 'react-router'
+import { Link, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { connect } from 'react-redux';
 import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums, toLogin, toLogout } from '../../actions/action';
@@ -28,6 +26,7 @@ function Content(props) {
 
   const previousAlbum = usePrevious(props.currentAlbum);
   const navigate = useNavigate();
+
 
   function getAlbums() {
     fetch("https://jsonplaceholder.typicode.com/albums")
@@ -86,27 +85,15 @@ function Content(props) {
       return arr.map(album => <Albums key={album.id} albumId={album.id} showPhotos={props.showPhotos} album={album.name} />);
     }
     //navigate('/albums/:albumId', { replace: true })
-    return arr.map(photo => <Photos key={getKey()} photo={photo} />);
     /*
-    return (
-      <Routes>
-         <Route path="/albums/:albumId" element={ arr.map(photo => <Photos key={getKey()} photo={photo} />) } />
-      </Routes>
-    );
+    if (user && props.currentAlbum) {
+      if (window.location.pathname !== "/user/:userId/albums/:albumId") window.history.pushState({}, null, "/user/:userId/albums/:albumId");
+    } else {
+      if (window.location.pathname !== "/albums/:albumId") window.history.pushState({}, null, "/user/:userId/albums/:albumId");
+    }
     */
-
-
-    /*
-    navigate('/albums/:albumId', { replace: false });
+    navigate(`/user/${props.user}/albums/${props.currentAlbum}`);
     return arr.map(photo => <Photos key={getKey()} photo={photo} />);
-
-    return (
-      <>
-        <Navigate replace to="/albums/:albumId" />
-        {arr.map(photo => <Photos key={getKey()} photo={photo} />)}
-      </>
-    )
-    */
   }
 
   function getAddNew(size) {
