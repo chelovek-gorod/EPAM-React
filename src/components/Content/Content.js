@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect, useRef } from "react";
+import { Link, Navigate } from "react-router-dom";
 
 import { connect } from 'react-redux';
 import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums, toLogin, toLogout } from '../../actions/action';
@@ -18,6 +19,8 @@ import './Content.css';
 function Content(props) {
 
   console.log(props.type);
+
+  const previousAlbum = usePrevious(props.currentAlbum);
 
   function getAlbums() {
     fetch("https://jsonplaceholder.typicode.com/albums")
@@ -45,7 +48,20 @@ function Content(props) {
     props.loadAlbums(albumsArr);
   }
 
-  const previousAlbum = usePrevious(props.currentAlbum);
+  // if need to redirect
+  if (props.user) {
+    // login
+    console.log('user is auth');
+    if (props.type === 'login') {
+      return <Navigate replace to="/user/:userId" />;
+    }
+  } else {
+    // logout
+    console.log('need login');
+    if (props.type === 'user albums' || props.type === '/user/:userId/albums/:albumId') {
+      return <Navigate replace to="/login" />;
+    }
+  }
 
   let key = 0;
   function getKey() {

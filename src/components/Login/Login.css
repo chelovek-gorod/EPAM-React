@@ -1,5 +1,25 @@
+.login-wrapper {
+  position: relative;
+  width: 320px;
+  height: 280px;
+  margin: 160px auto;
+}
+
+.input-title {
+  padding-left: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 2px 2px 6px #000000;
+}
+
+.input-title span {
+  font-size: 15px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
 input {
-  margin-top: 60px;
+  margin: 5px auto 20px;
   width: 312px;
   height: 24px;
   border-radius: 12px;
@@ -17,8 +37,8 @@ button {
 }
 
 .clear {
-  bottom: 12px;
-  left: 12px;
+  bottom: 0;
+  left: 0;
   width: 150px;
   height: 32px;
   padding: 2px 0 0 2px;
@@ -27,8 +47,8 @@ button {
 }
 
 .login {
-  bottom: 12px;
-  right: 12px;
+  bottom: 0;
+  right: 0;
   width: 150px;
   height: 32px;
   padding: 2px 0 0 2px;

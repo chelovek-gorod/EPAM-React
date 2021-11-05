@@ -5,8 +5,7 @@ export function showAlbums() {
 }
 export function showPhotos(albumId) {
    return {
-      type: 'SHOW_PHOTOS',
-      albumId : albumId
+      type: 'SHOW_PHOTOS', albumId
    }
 }
 export function showPopup() {
@@ -19,35 +18,30 @@ export function hidePopup() {
       type: 'HIDE_POPUP'
    }
 }
-export function changeInput(value) {
+export function changeInput({id, value}) {
    return {
-      type: 'CHANGE_INPUT',
-      value : value
+      type: 'CHANGE_INPUT', id, value
    }
 }
 export function addAlbum(name) {
    return {
-      type: 'ADD_ALBUM',
-      name : name
+      type: 'ADD_ALBUM', name
    }
 }
 export function addPhoto(name) {
    return {
-      type: 'ADD_PHOTO',
-      name : name
+      type: 'ADD_PHOTO', name
    }
 }
 export function loadAlbums(arr) {
    return {
-      type: 'LOAD_ALBUMS',
-      arr : arr
+      type: 'LOAD_ALBUMS', arr
    }
 }
 
 export function toLogin(userId) {
    return {
-      type: 'TO_LOGIN',
-      userId : userId
+      type: 'TO_LOGIN', userId
    }
 }
 export function toLogout() {

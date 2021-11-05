@@ -9,7 +9,7 @@ function Modal(props) {
   }
 
   function addNew() {
-    let newValue = props.inputValue.trim();
+    let newValue = props.inputValue.value.trim();
     if (newValue.length) {
       props.add(newValue);
       props.changeInput('');
@@ -20,8 +20,13 @@ function Modal(props) {
   }
 
   function changeInput() {
-    let input = document.getElementById('newInput');
-    props.changeInput(input.value);
+    let input = document.getElementById('inputName');
+    props.changeInput({ id: input, value: input.value });
+  }
+
+  function updateValue(inputId) {
+    let {id, value} = props.inputValue;
+    if (inputId === id) inputId.value = value;
   }
   
   return (
@@ -29,7 +34,7 @@ function Modal(props) {
       <div className="modal">
         { getType() }
         <button className="close" onClick = { props.hidePopup }>X</button>
-        <input id="newInput" type="text" maxLength="20" value={ props.inputValue } onChange={ changeInput } />
+        <input id="inputName" type="text" maxLength="20" value={ updateValue("inputName") } onChange={ changeInput } />
         <button className="cancel" onClick = { props.hidePopup }>cancel</button>
         <button className="add-new" onClick = { addNew }>Add new</button>
       </div>
