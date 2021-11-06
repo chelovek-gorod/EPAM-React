@@ -5,7 +5,7 @@
 }
 
 .header-container {
-  position: fixed;
+  position: absolute;
   top: 30px;
   left: 0;
   width: 100%;

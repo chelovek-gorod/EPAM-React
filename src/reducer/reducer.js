@@ -3,7 +3,7 @@ const initialState = {
    showAlbums : true,
    currentAlbum : 0,
    isPopup : false,
-   userLoginId : 0,
+   userLoginId : (localStorage.getItem('userId')) ? localStorage.getItem('userId') : 0,
    inputValue : {id : '', value: ''}
 };
 
@@ -42,6 +42,7 @@ const reducer = (state = initialState, action) => {
 
       case 'TO_LOGIN':
          obj.userLoginId = action.userId;
+         obj.showAlbums = true;
          return obj;
       case 'TO_LOGOUT':
          obj.userLoginId = 0;

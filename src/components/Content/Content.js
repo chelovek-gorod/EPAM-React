@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect, useRef } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, Navigate, useParams, useNavigate } from "react-router-dom";
 
 import { connect } from 'react-redux';
 import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums, toLogin, toLogout } from '../../actions/action';
@@ -27,6 +26,7 @@ function Content(props) {
   const previousAlbum = usePrevious(props.currentAlbum);
   const navigate = useNavigate();
 
+  let { userId, albumId } = useParams();
 
   function getAlbums() {
     fetch("https://jsonplaceholder.typicode.com/albums")
@@ -54,21 +54,10 @@ function Content(props) {
     props.loadAlbums(albumsArr);
   }
 
-  // if need to redirect
-  if (props.user) {
-    // login
-    console.log('user is auth');
-    if (props.type === 'login') {
-      console.log('REDIRECT TO: /user/:userId');
-      return <Navigate replace to="/user/:userId" />;
-    }
-  } else {
-    // logout
-    console.log('need login');
-    if (props.type === 'user albums' || props.type === 'user photos') {
-      console.log('REDIRECT TO: /login');
-      return <Navigate replace to="/login" />;
-    }
+  if (props.type === 'login' && props.user) navigate(`/user/${props.user}`); //return <Navigate replace to={`/user/${props.user}`} /> ;
+  if (props.type === 'to main') {
+    props.showAlbums();
+    (props.user) ? navigate(`/user/${props.user}`) : navigate(`/login`); //return props.user ? <Navigate replace to={`/user/${props.user}`} /> : <Navigate replace to={`/login`} /> ;
   }
 
   let key = 0;
@@ -76,24 +65,17 @@ function Content(props) {
     return key++;
   }
 
-  function getContent(albums, arr, user) { console.log('getContent(user) =', user, typeof user);
-    if (albums) {
-      if (props.type === 'user albums') {
-        let userAlbums = arr.filter(album => album.user === user);
-        return userAlbums.map(album => <Albums key={album.id} albumId={album.id} showPhotos={props.showPhotos} album={album.name} />);
-      }
-      return arr.map(album => <Albums key={album.id} albumId={album.id} showPhotos={props.showPhotos} album={album.name} />);
-    }
-    //navigate('/albums/:albumId', { replace: true })
-    /*
-    if (user && props.currentAlbum) {
-      if (window.location.pathname !== "/user/:userId/albums/:albumId") window.history.pushState({}, null, "/user/:userId/albums/:albumId");
+  function outputAlbums() { // props.view, props.user
+    if (props.type === 'all albums') {
+      return props.view.map(album => <Albums key={album.id} albumId={album.id} showPhotos={props.showPhotos} album={album.name} user={props.user} type={props.type} />);
     } else {
-      if (window.location.pathname !== "/albums/:albumId") window.history.pushState({}, null, "/user/:userId/albums/:albumId");
+      let userAlbums = props.view.filter(album => album.user === props.user);
+      return userAlbums.map(album => <Albums key={album.id} albumId={album.id} showPhotos={props.showPhotos} album={album.name} user={props.user} type={props.type} />);
     }
-    */
-    navigate(`/user/${props.user}/albums/${props.currentAlbum}`);
-    return arr.map(photo => <Photos key={getKey()} photo={photo} />);
+  }
+
+  function outputPhotos() {
+    return props.view.map(photo => <Photos key={getKey()} photo={photo} />);
   }
 
   function getAddNew(size) {
@@ -123,7 +105,8 @@ function Content(props) {
   }
 
   function clickLogout () {
-    props.toLogin('');
+    localStorage.clear();
+    props.toLogin(0);
     return <Navigate replace to="/albums" />;
   }
 
@@ -139,7 +122,7 @@ function Content(props) {
         <div className="header">
           <div className="linksLine">
             <Link className="link" to="/">HOME PAGE</Link>
-            <Link className="link" to="/albums">ALL ALBUMS</Link>
+            <Link className="link" to="/albums" onClick={ props.showAlbums } >ALL ALBUMS</Link>
           </div>
           { getHeaderLogin(props.user) }
         </div>
@@ -153,9 +136,9 @@ function Content(props) {
           <>
             <ScrollToBottom />
             <div className="previous">{ previousAlbum }</div>
-            <TopLine showAlbums={props.showAlbums} albums={props.albums} />
+            <TopLine showAlbums={props.showAlbums} albums={props.albums} user={props.user} type={props.type} />
             <div className = "content-container">
-              { getContent(props.albums, props.view, props.user) }
+              { (props.albums) ? outputAlbums() : outputPhotos() }
               { (props.user && (props.type === 'user albums' || props.type === 'user photos') ) ? getAddNew(props.view.length) : null }
               { showPopUp(props.popup, props.albums) }
             </div>
@@ -184,7 +167,8 @@ const mapStateToProps = (state) => { console.log(state);
       user : state.userLoginId,
       popup : state.isPopup,
       inputValue : state.inputValue,
-      currentAlbum : state.currentAlbum
+      currentAlbum : state.currentAlbum,
+      albumId : (state.currentAlbum) ? state.albumsArr[state.currentAlbum].id : 0
    };
 };
 const mapDispatchToProps = (dispatch) => {

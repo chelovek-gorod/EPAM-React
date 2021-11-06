@@ -27,7 +27,7 @@ function Login(props) {
     if (document.getElementById('inputPass').value.trim() === 'pass') {
       let login = +document.getElementById('inputLogin').value;
       if (Number.isInteger(login) && login > 0 && login < 11) {
-        console.log('Login OK!');
+        localStorage.setItem('userId', login);
         props.toLogin(login);
       } else alert('WRONG LOGIN!\nYour login is:\n1, 2, 3, 4, 5, 6, 7, 8, 9 or 10');
     } else alert('WRONG PASSWORD!\nYour password is:\npass');

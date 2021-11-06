@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Content from '../components/Content/Content';
 import './App.css';
 
@@ -29,11 +29,15 @@ function App() {
         <Route path="/albums/:albumId" element={ <Content type={'all photos'} /> } />
         <Route path="/user/:userId/albums/:albumId" element={ <Content type={'user photos'} /> } />
 
-        <Route path="/" element={<Navigate replace to="/user/:userId" />} />
-        <Route path="/home" element={<Navigate replace to="/user/:userId" />} />
+        <Route path="/" element={ <Content type={'to main'} /> } />
+        <Route path="/home" element={ <Content type={'to main'} /> } />
       </Routes>
     </div>
   );
 }
 
+/*
+<Route path="/" element={<Navigate replace to="/user/:userId" />} />
+<Route path="/home" element={<Navigate replace to="/user/:userId" />} />
+*/
 export default App;
