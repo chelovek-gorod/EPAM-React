@@ -21,8 +21,6 @@ import './Content.css';
 
 function Content(props) {
 
-  console.log('URL TYPE =', props.type); console.log('USER =', props.user, typeof props.user);
-
   const previousAlbum = usePrevious(props.currentAlbum);
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,7 +38,7 @@ function Content(props) {
       })
   }
 
-  function sortAlbums(albums) { console.log(albums);
+  function sortAlbums(albums) {
     let albumsArr = [];
     let currentId = 0;
     let arrSize = albums.length;
@@ -69,7 +67,7 @@ function Content(props) {
     (props.user) ? navigate(`/albums`) : navigate(`/login`);
   }
   
-  if (albumId) { console.log(albumId, typeof albumId, Number.isInteger(albumId), props.albumsSize);
+  if (albumId) {
     if (Number.isInteger(albumId) && albumId > 0 && albumId <= props.albumsSize) {
       if (props.albums) props.showPhotos(albumId);
     } else {
@@ -171,7 +169,7 @@ function Content(props) {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-const mapStateToProps = (state) => { console.log(state); 
+const mapStateToProps = (state) => {
 
    if (state.albumsArr.length === 0) return {loading : true};
 

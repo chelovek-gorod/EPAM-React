@@ -4,7 +4,7 @@ import './Albums.css';
 
 function Album(props) {
 
-  const navigate = useNavigate(); console.log("ALBUMS ", props);
+  const navigate = useNavigate();
 
   function handleClick() {
     let url = (props.user && props.type !== 'all albums') ? `/user/${props.user}/albums/${props.albumId}` : `/albums/${props.albumId}`;

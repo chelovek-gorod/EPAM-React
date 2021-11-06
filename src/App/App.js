@@ -28,19 +28,10 @@ function App() {
         <Route path="/user/:userId/albums/:albumId" element={ <Content type={'user photos'} /> } />
         <Route path="/" element={ <Content type={'login'} /> } />
         <Route path="/home" element={ <Content type={'login'} /> } />
+        <Route path="*" element={ <Content type={'login'} /> } />
       </Routes>
     </div>
   );
 }
 
-/*
-<Route path="/" element={ <Content type={'login'} /> } />
-        <Route path="/home" element={ <Content type={'login'} /> } />
-
-        <Route path="/" element={<Navigate replace to='login' />} />
-        <Route path="/home" element={<Navigate replace to='login' />} />
-
-
-        <Route exact path="/" render={() => {<Navigate replace to='login' /> }}
-*/
 export default App;
