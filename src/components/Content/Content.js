@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect, useRef } from "react";
-import { Link, Navigate, useParams, useNavigate } from "react-router-dom";
+import { Link, Navigate, useParams, useNavigate, useLocation } from "react-router-dom";
 
 import { connect } from 'react-redux';
 import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums, toLogin, toLogout } from '../../actions/action';
@@ -25,8 +25,9 @@ function Content(props) {
 
   const previousAlbum = usePrevious(props.currentAlbum);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  let { userId, albumId } = useParams();
+  let { userId, albumId } = useParams(); userId = +userId; albumId= +albumId;
 
   function getAlbums() {
     fetch("https://jsonplaceholder.typicode.com/albums")
@@ -54,10 +55,26 @@ function Content(props) {
     props.loadAlbums(albumsArr);
   }
 
-  if (props.type === 'login' && props.user) navigate(`/user/${props.user}`); //return <Navigate replace to={`/user/${props.user}`} /> ;
-  if (props.type === 'to main') {
-    props.showAlbums();
-    (props.user) ? navigate(`/user/${props.user}`) : navigate(`/login`); //return props.user ? <Navigate replace to={`/user/${props.user}`} /> : <Navigate replace to={`/login`} /> ;
+  if (props.type === 'login') {
+    if (props.user) {
+      if (location.pathname !== `/user/${props.user}`) navigate(`/user/${props.user}`);
+    } 
+    else {
+      if (location.pathname !== '/login') navigate('/login');
+    }
+  }
+
+  // READ URL 
+  if (userId && userId !== props.user) {
+    (props.user) ? navigate(`/albums`) : navigate(`/login`);
+  }
+  
+  if (albumId) { console.log(albumId, typeof albumId, Number.isInteger(albumId), props.albumsSize);
+    if (Number.isInteger(albumId) && albumId > 0 && albumId <= props.albumsSize) {
+      if (props.albums) props.showPhotos(albumId);
+    } else {
+      if (!props.albums) navigate(`/albums`);
+    }
   }
 
   let key = 0;
@@ -121,7 +138,7 @@ function Content(props) {
       <div className="header-container">
         <div className="header">
           <div className="linksLine">
-            <Link className="link" to="/">HOME PAGE</Link>
+            <Link className="link" to="/login" >HOME PAGE</Link>
             <Link className="link" to="/albums" onClick={ props.showAlbums } >ALL ALBUMS</Link>
           </div>
           { getHeaderLogin(props.user) }
@@ -139,7 +156,7 @@ function Content(props) {
             <TopLine showAlbums={props.showAlbums} albums={props.albums} user={props.user} type={props.type} />
             <div className = "content-container">
               { (props.albums) ? outputAlbums() : outputPhotos() }
-              { (props.user && (props.type === 'user albums' || props.type === 'user photos') ) ? getAddNew(props.view.length) : null }
+              { (props.user && (userId === props.user) ) ? getAddNew(props.view.length) : null }
               { showPopUp(props.popup, props.albums) }
             </div>
             <div id="bottomSide"></div>
@@ -154,7 +171,7 @@ function Content(props) {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-const mapStateToProps = (state) => { console.log(state);
+const mapStateToProps = (state) => { console.log(state); 
 
    if (state.albumsArr.length === 0) return {loading : true};
 
@@ -163,6 +180,7 @@ const mapStateToProps = (state) => { console.log(state);
     state.albumsArr[state.currentAlbum].photos.map(photo => photo);
    return {
       albums : state.showAlbums,
+      albumsSize : state.albumsArr.length,
       view : toOutput,
       user : state.userLoginId,
       popup : state.isPopup,
@@ -185,4 +203,5 @@ const mapDispatchToProps = (dispatch) => {
       toLogout: () => dispatch(toLogout())
    }
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Content);
