@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect, useRef } from "react";
-import { Link, Navigate, useParams, useNavigate, useLocation } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 
 import { connect } from 'react-redux';
 import { showAlbums, showPhotos, showPopup, hidePopup, changeInput, addAlbum, addPhoto, loadAlbums, toLogin, toLogout } from '../../actions/action';
@@ -122,11 +122,10 @@ function Content(props) {
   function clickLogout () {
     localStorage.clear();
     props.toLogin(0);
-    return <Navigate replace to="/albums" />;
   }
 
   function getHeaderLogin(user) {
-    if (user) return <Link className="login-logout" onClick={ clickLogout } to="/albums">logout</Link>;
+    if (user) return <Link className="login-logout" onClick={ clickLogout } to={ (props.type === "all albums") ? "/albums" : "/login" }>logout</Link>;
     return <Link className="login-logout" to="/login">login</Link>;
   }
 
