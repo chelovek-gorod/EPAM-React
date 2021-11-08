@@ -1,0 +1,21 @@
+.top-div {
+  width: 684px;
+  height: 30px;
+  position: absolute;
+  text-align: center;
+  top: 10px;
+  font-size: 18px;
+}
+
+button.back {
+  position: absolute;
+  right: 3%;
+  top: 3%;
+  height: 26px;
+  padding: 4px 12px;
+  color: #ffffff;
+  background-color: inherit;
+  border: solid 2px #00b6ff;
+  border-radius: 8px;
+  cursor: pointer;
+}

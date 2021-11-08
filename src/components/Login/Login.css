@@ -1,0 +1,56 @@
+.login-wrapper {
+  position: relative;
+  width: 320px;
+  height: 280px;
+  margin: 160px auto;
+}
+
+.input-title {
+  padding-left: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 2px 2px 6px #000000;
+}
+
+.input-title span {
+  font-size: 15px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+input {
+  margin: 5px auto 20px;
+  width: 312px;
+  height: 24px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 18px;
+}
+
+button {
+  position: absolute;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 18px;
+  background-color: #00b7ff;
+  cursor: pointer;
+}
+
+.clear {
+  bottom: 0;
+  left: 0;
+  width: 150px;
+  height: 32px;
+  padding: 2px 0 0 2px;
+  font-size: 18px;
+  background-color: inherit;
+}
+
+.login {
+  bottom: 0;
+  right: 0;
+  width: 150px;
+  height: 32px;
+  padding: 2px 0 0 2px;
+  font-size: 18px;
+}
